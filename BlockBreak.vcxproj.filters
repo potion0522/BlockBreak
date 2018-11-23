@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="SceneTitle.cpp">
+      <Filter>SceneTitle</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGame.cpp">
+      <Filter>SceneGame</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Scene.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneTitle.h">
+      <Filter>SceneTitle</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGame.h">
+      <Filter>SceneGame</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{10be5d43-a7ef-4a04-a9c3-52f44e8f2d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneGame">
+      <UniqueIdentifier>{46c2d0d6-654e-49a2-ac94-4aa97a29b367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneTitle">
+      <UniqueIdentifier>{cd9febea-fe46-4e83-9ac6-07a39c817aba}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
