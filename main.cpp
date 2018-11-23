@@ -3,7 +3,7 @@
 #include "Drawer.h"
 
 int main( ) {
-	ManagerPtr manager = Manager::getInstance( );
+	Manager* manager = Manager::getInstance( );
 
 	// fundation class
 	BasePtr drawer( new Drawer( "." ) );

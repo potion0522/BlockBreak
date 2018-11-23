@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "SceneTitle.h"
 #include "SceneGame.h"
+#include "Drawer.h"
 
 ControllerPtr Controller::getTask( ) {
 	return std::dynamic_pointer_cast< Controller >( Manager::getInstance( )->getTask( getTag( ) ) );
@@ -36,4 +37,8 @@ void Controller::update( ) {
 
 	// draw
 	_play_scene->draw( );
+
+	DrawerPtr drawer = Drawer::getTask( );
+	drawer->drawCircle( 0, 0, 100, 0xffffff, true );
+	drawer->flip( );
 }
