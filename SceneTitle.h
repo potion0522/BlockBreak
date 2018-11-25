@@ -4,6 +4,7 @@
 
 PTR( SceneTitle );
 PTR( Image );
+PTR( Button );
 
 class SceneTitle : public Scene {
 public:
@@ -15,12 +16,16 @@ public:
 	void draw( ) const;
 
 private:
+	void updateButton( );
+	void updateFontFlash( );
+
+private:
 	const double FONT_FLASHING_RATIO;
 	const int FONT_FLASHING_ALPHA;
 	const double PI;
 	int _count;
 
 	ImagePtr _bg;
-	ImagePtr _click_to_start_font;
+	ButtonPtr _click_to_start_font;
 };
 
