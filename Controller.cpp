@@ -37,8 +37,4 @@ void Controller::update( ) {
 
 	// draw
 	_play_scene->draw( );
-
-	DrawerPtr drawer = Drawer::getTask( );
-	drawer->drawCircle( 0, 0, 100, 0xffffff, true );
-	drawer->flip( );
 }

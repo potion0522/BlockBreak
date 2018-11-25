@@ -6,7 +6,7 @@ int main( ) {
 	Manager* manager = Manager::getInstance( );
 
 	// fundation class
-	BasePtr drawer( new Drawer( "." ) );
+	BasePtr drawer( new Drawer( "Resources/" ) );
 
 	// now project class
 	BasePtr controller( new Controller );

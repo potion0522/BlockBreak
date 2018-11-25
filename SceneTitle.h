@@ -3,6 +3,7 @@
 #include "smart_ptr.h"
 
 PTR( SceneTitle );
+PTR( Image );
 
 class SceneTitle : public Scene {
 public:
@@ -12,5 +13,14 @@ public:
 public:
 	void update( );
 	void draw( ) const;
+
+private:
+	const double FONT_FLASHING_RATIO;
+	const int FONT_FLASHING_ALPHA;
+	const double PI;
+	int _count;
+
+	ImagePtr _bg;
+	ImagePtr _click_to_start_font;
 };
 
