@@ -9,6 +9,9 @@
     <ClCompile Include="SceneGame.cpp">
       <Filter>SceneGame</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>SceneGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
@@ -19,6 +22,9 @@
       <Filter>SceneTitle</Filter>
     </ClInclude>
     <ClInclude Include="SceneGame.h">
+      <Filter>SceneGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>SceneGame</Filter>
     </ClInclude>
   </ItemGroup>
