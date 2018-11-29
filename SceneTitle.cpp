@@ -51,10 +51,12 @@ void SceneTitle::updateFontFlash( ) {
 void SceneTitle::updateButton( ) {
 	_click_to_start_font->update( );
 
+	// クリックされたかどうか
 	if ( !_click_to_start_font->isClicked( ) ) {
 		return;
 	}
 
+	// シーンを変える
 	Controller::getTask( )->changeScene( Controller::SCENE_GAME );
 }
 

@@ -14,11 +14,22 @@ public:
 	void update( );
 	void draw( ) const;
 
-private:
-	void updatePlayerPos( );
+	// デバッグ用
+	void drawDebug( ) const;
 
 private:
-	float _speed;
+	void updatePlayerPos( );
+	void adjustY( );
+	void move( );
+
+private:
+	const double MAX_SPEED;
+	const double DETECT_ADJUST_RANCE;
+	const double Y_ADJUST_SPEED;
+
+private:
+	float _base_y;
+	Vector _speed;
 	Vector _pos;
 
 	ImagePtr _player_image;

@@ -16,7 +16,6 @@ void SceneGame::update( ) {
 void SceneGame::draw( ) const {
 	_player->draw( );
 
-
 	DrawerPtr drawer = Drawer::getTask( );
 	drawer->flip( );
 }
