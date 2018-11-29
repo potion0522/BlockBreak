@@ -4,9 +4,7 @@
 #include "Drawer.h"
 #include "Manager.h"
 #include "Mouse.h"
-
-const char* KEY_LEFT_MOVE = "a";
-const char* KEY_RIGHT_MOVE = "d";
+#include "Node.h"
 
 const char* PLAYER_FILEPATH = "Game/Player.png";
 
@@ -28,6 +26,9 @@ _speed( ) {
 	// ‰Šú’n“_
 	_base_y = scr_h / 2.0f;
 	_pos = Vector( scr_w * 0.5, scr_h * 0.75 );
+
+	// debug
+	_node = NodePtr( new Node );
 }
 
 Player::~Player( ) {
@@ -40,7 +41,9 @@ void Player::update( ) {
 	// debug
 	if ( Mouse::getTask( )->isClickDownLeft( ) ) {
 		_speed += Vector( 0, 50 );
+		_node->spawn( );
 	}
+	_node->update( );
 	// !debug
 
 	move( );
@@ -94,6 +97,10 @@ void Player::move( ) {
 void Player::draw( ) const {
 	_player_image->setPos( ( int )_pos.x, ( int )_pos.y );
 	_player_image->draw( );
+
+	// debug
+	_node->draw( );
+	// !debug
 }
 
 void Player::drawDebug( ) const {

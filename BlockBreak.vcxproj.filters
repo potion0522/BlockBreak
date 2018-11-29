@@ -12,6 +12,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>SceneGame</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="Player.h">
       <Filter>SceneGame</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Interface">

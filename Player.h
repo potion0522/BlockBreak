@@ -4,6 +4,7 @@
 
 PTR( Player );
 PTR( Image );
+PTR( Node );
 
 class Player {
 public:
@@ -33,5 +34,6 @@ private:
 	Vector _pos;
 
 	ImagePtr _player_image;
+	NodePtr _node;
 };
 
