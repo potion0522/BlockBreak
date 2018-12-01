@@ -4,30 +4,40 @@
 
 // debug
 const float RADIUS = 30.0f;
+const double RUG = 0.5;
+const int MAX_STACK = 2;
 
 Node::Node( ) :
 _parent( ),
-_pos( ) {
+_pos( ),
+_speed( ) {
 	Manager* manager = Manager::getInstance( );
 	int scr_w = manager->getScreenWidth( );
 	int scr_h = manager->getScreenHeight( );
 
 	_pos = Vector( scr_w * 0.5, scr_h * 0.75 );
+	_stack_speed.resize( MAX_STACK );
 }
 
 Node::Node( NodePtr parent ) :
-_parent( parent ) {
+_parent( parent ),
+_pos( ),
+_speed( ) {
 	_pos = parent->getPos( );
-	_pos.y += RADIUS;
+	_pos.y += RADIUS * 2;
+	_stack_speed.resize( MAX_STACK );
 }
 
 Node::~Node( ) {
 }
 
 void Node::update( ) {
+	move( );
+
 	if ( _child ) {
 		_child->update( );
 	}
+
 }
 
 void Node::draw( ) const {
@@ -37,6 +47,10 @@ void Node::draw( ) const {
 	if ( _child ) {
 		_child->draw( );
 	}
+}
+
+void Node::setSpeed( const Vector& speed ) {
+	_speed = speed;
 }
 
 Vector Node::getPos( ) const {
@@ -55,11 +69,36 @@ void Node::spawn( ) {
 	}
 }
 
-std::shared_ptr< Node > Node::destroy( ) {
+NodePtr Node::destroy( ) {
 	if ( !_child ) {
 		// 空を返す
 		return NodePtr( );
 	}
 
 	return _child;
+}
+
+void Node::move( ) {
+	_pos += _speed;
+
+	// 子に指示を出す
+	instruct( );
+
+	// 新しい命令を詰めておく
+	const int LAST_ORDER = MAX_STACK - 1;
+	_stack_speed[ LAST_ORDER ] = _speed;
+	_speed = Vector( );
+}
+
+void Node::instruct( ) {
+	const int FIRST_ORDER = 0;
+
+	if ( _child ) {
+		_child->setSpeed( _stack_speed[ FIRST_ORDER ] );
+	}
+
+	// オーダーをまわす
+	for ( int i = 0; i < MAX_STACK - 1; i++ ) {
+		_stack_speed[ i ] = _stack_speed[ i + 1 ];
+	}
 }

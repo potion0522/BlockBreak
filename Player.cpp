@@ -9,7 +9,7 @@
 const char* PLAYER_FILEPATH = "Game/Player.png";
 
 Player::Player( ) :
-MAX_SPEED( 100 ),
+MAX_SPEED( 75 ),
 DETECT_ADJUST_RANCE( 1.0 ),
 Y_ADJUST_SPEED( 15.0 ),
 _pos( ),
@@ -40,7 +40,7 @@ void Player::update( ) {
 
 	// debug
 	if ( Mouse::getTask( )->isClickDownLeft( ) ) {
-		_speed += Vector( 0, 50 );
+		_speed += Vector( 0, 60 );
 		_node->spawn( );
 	}
 	_node->update( );
@@ -91,12 +91,15 @@ void Player::move( ) {
 	}
 
 	_pos += _speed;
+
+	_node->setSpeed( _speed );
+
 	_speed = Vector( );
 }
 
 void Player::draw( ) const {
-	_player_image->setPos( ( int )_pos.x, ( int )_pos.y );
-	_player_image->draw( );
+	//_player_image->setPos( ( int )_pos.x, ( int )_pos.y );
+	//_player_image->draw( );
 
 	// debug
 	_node->draw( );
