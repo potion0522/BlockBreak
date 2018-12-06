@@ -1,7 +1,6 @@
 #pragma once
 #include "smart_ptr.h"
 #include "Vector.h"
-#include <vector>
 
 PTR( Node );
 
@@ -31,10 +30,8 @@ public: // getter
 
 private:
 	void move( );
-	void instruct( );
 
 private:
-	std::vector< Vector > _stack_speed;
 	Vector _pos;
 	Vector _speed;
 

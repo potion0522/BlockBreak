@@ -16,7 +16,6 @@ _speed( ) {
 	int scr_h = manager->getScreenHeight( );
 
 	_pos = Vector( scr_w * 0.5, scr_h * 0.75 );
-	_stack_speed.resize( MAX_STACK );
 }
 
 Node::Node( NodePtr parent ) :
@@ -25,7 +24,6 @@ _pos( ),
 _speed( ) {
 	_pos = parent->getPos( );
 	_pos.y += RADIUS * 2;
-	_stack_speed.resize( MAX_STACK );
 }
 
 Node::~Node( ) {
@@ -81,24 +79,23 @@ NodePtr Node::destroy( ) {
 void Node::move( ) {
 	_pos += _speed;
 
-	// 子に指示を出す
-	instruct( );
+	NodePtr parent = _parent.lock( );
+	if ( parent ) {
+		Vector adjust_y = Vector( 0, 1 );
+		_pos += adjust_y * RADIUS * 0.38; // 小数は適当。高ければ高いほどすぐに縦になる
 
-	// 新しい命令を詰めておく
-	const int LAST_ORDER = MAX_STACK - 1;
-	_stack_speed[ LAST_ORDER ] = _speed;
+		Vector parent_pos = parent->getPos( );
+		Vector child_to_parent = parent_pos - _pos;
+
+		double length = child_to_parent.getLength( );
+		double control_length = RADIUS * 2;
+
+		double result = length - control_length;
+
+		if ( result > 0 ) { // 遠い
+			_pos += child_to_parent.normalize( ) * result;
+		}
+	}
+
 	_speed = Vector( );
-}
-
-void Node::instruct( ) {
-	const int FIRST_ORDER = 0;
-
-	if ( _child ) {
-		_child->setSpeed( _stack_speed[ FIRST_ORDER ] );
-	}
-
-	// オーダーをまわす
-	for ( int i = 0; i < MAX_STACK - 1; i++ ) {
-		_stack_speed[ i ] = _stack_speed[ i + 1 ];
-	}
 }

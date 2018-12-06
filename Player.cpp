@@ -9,7 +9,7 @@
 const char* PLAYER_FILEPATH = "Game/Player.png";
 
 Player::Player( ) :
-MAX_SPEED( 75 ),
+MAX_SPEED( 150 ),
 DETECT_ADJUST_RANCE( 1.0 ),
 Y_ADJUST_SPEED( 15.0 ),
 _pos( ),
