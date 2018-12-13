@@ -12,6 +12,12 @@
     <ClCompile Include="Node.cpp">
       <Filter>SceneGame</Filter>
     </ClCompile>
+    <ClCompile Include="LineRecorder.cpp">
+      <Filter>SceneGame</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeManager.cpp">
+      <Filter>SceneGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
@@ -25,6 +31,12 @@
       <Filter>SceneGame</Filter>
     </ClInclude>
     <ClInclude Include="Node.h">
+      <Filter>SceneGame</Filter>
+    </ClInclude>
+    <ClInclude Include="LineRecorder.h">
+      <Filter>SceneGame</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeManager.h">
       <Filter>SceneGame</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,8 @@
 #include "smart_ptr.h"
 
 PTR( SceneGame );
-PTR( Node );
+PTR( NodeManager );
+PTR( LineRecorder );
 
 class SceneGame : public Scene {
 public:
@@ -15,6 +16,7 @@ public:
 	void draw( ) const;
 
 private:
-	NodePtr _player;
+	NodeManagerPtr _node;
+	LineRecorderPtr _recorder;
 };
 
