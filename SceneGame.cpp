@@ -1,9 +1,9 @@
 #include "SceneGame.h"
 #include "Drawer.h"
-#include "Player.h"
+#include "Node.h"
 
 SceneGame::SceneGame( ) {
-	_player = PlayerPtr( new Player );
+	_player = NodePtr( new Node );
 }
 
 SceneGame::~SceneGame( ) {
