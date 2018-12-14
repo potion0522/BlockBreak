@@ -12,7 +12,7 @@ public:
 
 public:
 	void record( );
-	const std::list< Vector >& getRecordingData( );
+	const std::list< Vector >& getRecordingData( ) const;
 
 private:
 	void recordNewPos( );

@@ -16,7 +16,8 @@ void NodeManager::calcNodePos( const std::list< Vector >& line ) {
 	int size = ( int )line.size( );
 	int max_loop = size - 1;	
 
-	std::list< Vector >::const_iterator ite = line.begin( );
+	// 最後の要素が最新なので反対から読む
+	std::list< Vector >::const_reverse_iterator ite = line.rbegin( );
 
 	for ( int i = 0; i < max_loop; i++ ) {
 		// 点と点の間
@@ -26,11 +27,12 @@ void NodeManager::calcNodePos( const std::list< Vector >& line ) {
 		// 線をNodeサイズで分割
 		Vector line = end - start;
 		Vector line_dir = line.normalize( );
-		int div_num = ( int )( line.getLength( ) / NODE_RADIUS );
+		int div_num = ( int )( line.getLength( ) / ( NODE_RADIUS * 2 ) );
 
 		for ( int j = 0; j < div_num; j++ ) {
 			// start + ( 方向 * i番目 * 直径 ) + 半径
 			Vector node_pos = start + ( line_dir * j * NODE_RADIUS * 2 );
+			node_pos.y += NODE_RADIUS;
 
 			_node_pos.push_back( node_pos );
 
@@ -47,7 +49,10 @@ void NodeManager::calcNodePos( const std::list< Vector >& line ) {
 		}
 	}
 
-	_node_pos.push_back( ( *ite ) );
+	// 最後のノードの入力
+	Vector last_pos = ( *ite );
+	last_pos.y += NODE_RADIUS;
+	_node_pos.push_back( last_pos );
 }
 
 void NodeManager::draw( ) const {
