@@ -12,10 +12,10 @@
     <ClCompile Include="Node.cpp">
       <Filter>SceneGame</Filter>
     </ClCompile>
-    <ClCompile Include="LineRecorder.cpp">
+    <ClCompile Include="Recorder.cpp">
       <Filter>SceneGame</Filter>
     </ClCompile>
-    <ClCompile Include="NodeManager.cpp">
+    <ClCompile Include="NodeDrawer.cpp">
       <Filter>SceneGame</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,10 +33,10 @@
     <ClInclude Include="Node.h">
       <Filter>SceneGame</Filter>
     </ClInclude>
-    <ClInclude Include="LineRecorder.h">
+    <ClInclude Include="Recorder.h">
       <Filter>SceneGame</Filter>
     </ClInclude>
-    <ClInclude Include="NodeManager.h">
+    <ClInclude Include="NodeDrawer.h">
       <Filter>SceneGame</Filter>
     </ClInclude>
   </ItemGroup>
