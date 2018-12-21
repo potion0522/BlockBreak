@@ -1,22 +1,20 @@
 #include "SceneGame.h"
 #include "Drawer.h"
-#include "NodeDrawer.h"
-#include "Recorder.h"
+#include "NodeManager.h"
 
 SceneGame::SceneGame( ) {
-	_node_drawer = NodeDrawerPtr( new NodeDrawer );
-	_recorder = RecorderPtr( new Recorder );
+	_node_manager = NodeManagerPtr( new NodeManager );
 }
 
 SceneGame::~SceneGame( ) {
 }
 
 void SceneGame::update( ) {
-	_recorder->record( );
+	_node_manager->update( );
 }
 
 void SceneGame::draw( ) const {
-	_node_drawer->draw( _recorder->getNodes( ) );
+	_node_manager->draw( );
 
 	DrawerPtr drawer = Drawer::getTask( );
 	drawer->flip( );

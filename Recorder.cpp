@@ -1,25 +1,20 @@
 #include "Recorder.h"
-
 #include "Mouse.h"
 #include "Manager.h"
 
-const double MOVE_Y = 60;
-const double MAX_SPEED = 100;
-const double NODE_RADIUS = 30;
+#include "define.h"
 
-Recorder::Recorder( ) :
-CREATE_POS_Y( Manager::getInstance( )->getScreenHeight( ) * 0.45 ),
-_max_node( 0x0a ) {
-	// 初期地点
-	Manager* manager = Manager::getInstance( );
-	_nodes.push_back( Vector( manager->getScreenWidth( ) * 0.5, CREATE_POS_Y ) );
+const double RECORD_LINE = 0.0;
+const double MAX_SPEED = 300.0;
+
+Recorder::Recorder( ) {
 }
 
 Recorder::~Recorder( ) {
 }
 
-void Recorder::record( ) {
-	// 下に下げる
+bool Recorder::record( ) {
+	// 座標を全体的に下げる
 	fall( );
 
 	// 最新座標を入力
@@ -28,22 +23,17 @@ void Recorder::record( ) {
 	// マウス座標からノードの座標を計算
 	convertNodePos( );
 
-	// マウスの座標を更新
-	clearMousePos( );
+	bool result = false;
+	if ( !_create_nodes.empty( ) ) {
+		result = true;
+	}
 
-	// 画面から出たものは消す
-	deleteOnBecameInvisible( );
+	return result;
 }
 
 void Recorder::fall( ) {
-	// mouse の軌跡を下げる
-	for ( Vector& pos : _mouse_points ) {
-		pos.y += MOVE_Y;
-	}
-
-	// node を全体的に下げる
-	for ( Vector& pos : _nodes ) {
-		pos.y += MOVE_Y;
+	for ( Vector& point : _mouse_points ) {
+		point.y += 45;
 	}
 }
 
@@ -63,68 +53,71 @@ void Recorder::recordNewMousePos( ) {
 	}
 
 	// y は毎回同じ位置から
-	pos.y = CREATE_POS_Y;
+	pos.y = RECORD_LINE;
 
 	_mouse_points.push_back( pos );
 }
-
+#include "Drawer.h"
 void Recorder::convertNodePos( ) {
-	std::list< Vector >::reverse_iterator mouse_iterator = _mouse_points.rbegin( );
+	// 初期化
+	_create_nodes.clear( );
 
-	Vector line = Vector( );
-	Vector end   = _nodes.back( );
+	Vector line          = Vector( );
+	Vector last_node_pos = _mouse_points.front( );
+	Vector end           = _mouse_points.front( );
 
-	for ( mouse_iterator; mouse_iterator != _mouse_points.rend( ); mouse_iterator++ ) {
-		Vector start = ( *mouse_iterator );
+	const double PITCH = DEFAULT_NODE_RADIUS * DEFAULT_NODE_RADIUS * 4;
 
-		line += end - start;
-		end = start;
+	// 新しくノードを生成する位置を計算
+	std::list< Vector >::iterator ite = _mouse_points.begin( );
+	ite++;
+
+	for ( ite; ite != _mouse_points.end( ); ite++ ) {
+		Vector start = ( *ite );
+
+		line = end - start;
+		line += ( line.normalize( ) * -1 * DEFAULT_NODE_RADIUS );
 
 		// ノードサイズより短い線であれば次を加算
-		if ( line.getLength2( ) < NODE_RADIUS * NODE_RADIUS * 4 ) {
+		double length2 = line.getLength2( );
+		if ( length2 < PITCH ) {
 			continue;
 		}
 
-		// 新規作成場所を計算
-		Vector create_pos = ( line.normalize( ) * -1 ) * ( NODE_RADIUS * 2 ) + _nodes.back( );
-		_nodes.push_back( create_pos );
+		int div_num = ( int )( length2 / PITCH );
+		static int max;
+		if ( div_num > max ) {
+			max = div_num;
+		}
+		Drawer::getTask( )->drawFormatString( 0, 20, 0xff0000, "%d", max );
+		// 相対座標
+		Vector create_pos = ( line.normalize( ) * -1 ) * ( DEFAULT_NODE_RADIUS * 2 );
 
-		// 最後の位置を更新
-		end = create_pos;
-		line = Vector( );
+		for ( int j = 0; j < div_num; j++ ) {
+			// 相対座標をセット
+			_create_nodes.push_back( create_pos );
+
+			// 絶対座標を計算
+			last_node_pos += create_pos;
+		}
+
+		line = last_node_pos - start;
+		end  = start;
 	}
-}
 
-void Recorder::clearMousePos( ) {
-	// 最後のノードより下にあるポイントは削除
-	std::list< Vector >::iterator ite = _mouse_points.begin( );
-	Vector last_pos = _nodes.back( );
 
+	// マウス座標の更新
+	ite = _mouse_points.begin( );
 	while ( ite != _mouse_points.end( ) ) {
-		if ( ( *ite ).y > last_pos.y ) {
+		if ( ( *ite ).y >= last_node_pos.y ) {
 			ite = _mouse_points.erase( ite );
 			continue;
 		}
-		ite++;
+		break;
 	}
+	_mouse_points.push_front( last_node_pos );
 }
 
-void Recorder::deleteOnBecameInvisible( ) {
-	std::list< Vector >::iterator ite = _nodes.begin( );
-	const int MAX_HEIGHT =  Manager::getInstance( )->getScreenHeight( );
-
-	while ( ite != _nodes.end( ) ) {
-		if ( ( *ite ).y - NODE_RADIUS > MAX_HEIGHT ) {
-			ite = _nodes.erase( ite );
-			continue;
-		} else {
-			break;
-		}
-
-		ite++;
-	}
-}
-
-const std::list< Vector >& Recorder::getNodes( ) const {
-	return _nodes;
+const std::list< Vector >& Recorder::getNewNodes( ) const {
+	return _create_nodes;
 }

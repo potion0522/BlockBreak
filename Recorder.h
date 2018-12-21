@@ -5,29 +5,28 @@
 
 PTR( Recorder );
 
+/*
+
+マウスの軌跡を保存して起き先頭ノードの座標を常に計算するクラス
+
+*/
+
 class Recorder {
 public:
 	Recorder( );
 	virtual ~Recorder( );
 
 public:
-	void record( );
-	const std::list< Vector >& getNodes( ) const;
+	bool record( );
+	const std::list< Vector >& getNewNodes( ) const;
 
 private:
 	void fall( );
 	void recordNewMousePos( );
 	void convertNodePos( );
-	void clearMousePos( );
-	void deleteOnBecameInvisible( );
 
 private:
-	const double CREATE_POS_Y;
-
-private:
+	std::list< Vector > _create_nodes;
 	std::list< Vector > _mouse_points;
-	std::list< Vector > _nodes;
-
-	unsigned char _max_node;
 };
 

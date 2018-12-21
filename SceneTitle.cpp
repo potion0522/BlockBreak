@@ -6,6 +6,9 @@
 #include "Controller.h"
 #include "Vector.h"
 
+// debug
+#include "Keyboard.h"
+
 const char* BG_FILEPATH = "Title/TitleBG.png";
 const char* START_FONT_FILEPATH = "Title/ClickToStart.png";
 
@@ -36,6 +39,11 @@ void SceneTitle::update( ) {
 
 	// ボタンアクション
 	updateButton( );
+
+	// debug
+	if ( Keyboard::getTask( )->getKeyDown( "Z" ) ) {
+		Controller::getTask( )->changeScene( Controller::SCENE_GAME );
+	}
 }
 
 void SceneTitle::updateFontFlash( ) {
