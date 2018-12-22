@@ -3,9 +3,12 @@
 #include "Drawer.h"
 #include "Mouse.h"
 #include "Keyboard.h"
+#include "define.h"
 
 int main( ) {
 	Manager* manager = Manager::getInstance( );
+	manager->setScreenSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+	manager->setWindowSize( WINDOW_WIDTH, WINDOW_HEIGHT );
 
 	// fundation class
 	BasePtr drawer( new Drawer( "Resources/" ) );
@@ -14,7 +17,6 @@ int main( ) {
 
 	// now project class
 	BasePtr controller( new Controller );
-
 	
 	// add
 	manager->add( Controller::getTag( ), controller );

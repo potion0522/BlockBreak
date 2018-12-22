@@ -1,6 +1,7 @@
 #include "NodeManager.h"
 #include "Drawer.h"
 #include "Manager.h"
+#include "Mouse.h"
 
 #include "Recorder.h"
 #include "define.h"
@@ -11,8 +12,9 @@ _max_node( 0x10 ) {
 	_recorder = RecorderPtr( new Recorder );
 
 	// 初期地点に1つ生成
-	Manager* manager = Manager::getInstance( );
-	_nodes.push_back( Vector( manager->getScreenWidth( ) * 0.5, manager->getScreenHeight( ) * 0.5 ) );
+	MousePtr mouse = Mouse::getTask( );
+	Vector mouse_point = mouse->getPoint( );
+	_nodes.push_back( Vector( mouse_point.x, ADJUST_LINE ) );
 }
 
 NodeManager::~NodeManager( ) {
@@ -27,7 +29,7 @@ void NodeManager::update( ) {
 	// ノード数の調整
 	adjustNodesNum( );
 
-	// 先頭ノードのYを規定値にする
+	// 先頭のY, 画面内の調整
 	adjustNodesPos( );
 }
 
@@ -40,6 +42,7 @@ void NodeManager::createNewNodes( ) {
 }
 
 void NodeManager::adjustNodesPos( ) {
+	// y を調整
 	double gap = ADJUST_LINE - _nodes.back( ).y;
 	for ( Vector& node : _nodes ) {
 		node.y += gap;

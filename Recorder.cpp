@@ -5,8 +5,6 @@
 #include "define.h"
 
 const double RECORD_LINE = 0.0;
-const double MAX_SPEED = 200.0;
-
 
 Recorder::Recorder( ) :
 MAX_DECAY_RATIO( 0.3 ),
