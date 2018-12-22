@@ -26,6 +26,11 @@ private:
 	void convertNodePos( );
 
 private:
+	// ‰º‚·‘¬“x‚ÌÅ‘åŒ¸Š—¦
+	const double MAX_DECAY_RATIO;
+
+private:
+	double _fall_speed;
 	std::list< Vector > _create_nodes;
 	std::list< Vector > _mouse_points;
 };

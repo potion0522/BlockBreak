@@ -5,9 +5,12 @@
 #include "define.h"
 
 const double RECORD_LINE = 0.0;
-const double MAX_SPEED = 300.0;
+const double MAX_SPEED = 200.0;
 
-Recorder::Recorder( ) {
+
+Recorder::Recorder( ) :
+MAX_DECAY_RATIO( 0.3 ),
+_fall_speed( DEFAULT_FALL_SPEED ) {
 }
 
 Recorder::~Recorder( ) {
@@ -33,7 +36,7 @@ bool Recorder::record( ) {
 
 void Recorder::fall( ) {
 	for ( Vector& point : _mouse_points ) {
-		point.y += 45;
+		point.y += _fall_speed;
 	}
 }
 
@@ -50,14 +53,22 @@ void Recorder::recordNewMousePos( ) {
 	double dot = Vector( 1, 0, 0 ).dot( pos - past_pos );
 	if ( dot < -MAX_SPEED || MAX_SPEED < dot ) {
 		pos = past_pos + ( pos - past_pos ).normalize( ) * MAX_SPEED;
+		dot = MAX_SPEED;
 	}
+
+	// â°ÇÃspeedÇ…ÇÊÇ¡ÇƒècÇÃspeedÇâ∫Ç∞ÇÈ
+	double ratio = 1.0 - fabs( dot ) / MAX_SPEED;
+	if ( ratio < MAX_DECAY_RATIO ) {
+		ratio = MAX_DECAY_RATIO;
+	}
+	_fall_speed = DEFAULT_FALL_SPEED * ratio;
 
 	// y ÇÕñàâÒìØÇ∂à íuÇ©ÇÁ
 	pos.y = RECORD_LINE;
 
 	_mouse_points.push_back( pos );
 }
-#include "Drawer.h"
+
 void Recorder::convertNodePos( ) {
 	// èâä˙âª
 	_create_nodes.clear( );
@@ -76,7 +87,6 @@ void Recorder::convertNodePos( ) {
 		Vector start = ( *ite );
 
 		line = end - start;
-		line += ( line.normalize( ) * -1 * DEFAULT_NODE_RADIUS );
 
 		// ÉmÅ[ÉhÉTÉCÉYÇÊÇËíZÇ¢ê¸Ç≈Ç†ÇÍÇŒéüÇâ¡éZ
 		double length2 = line.getLength2( );
@@ -84,12 +94,8 @@ void Recorder::convertNodePos( ) {
 			continue;
 		}
 
-		int div_num = ( int )( length2 / PITCH );
-		static int max;
-		if ( div_num > max ) {
-			max = div_num;
-		}
-		Drawer::getTask( )->drawFormatString( 0, 20, 0xff0000, "%d", max );
+		int div_num = ( int )sqrt( length2 / PITCH );
+
 		// ëäëŒç¿ïW
 		Vector create_pos = ( line.normalize( ) * -1 ) * ( DEFAULT_NODE_RADIUS * 2 );
 
